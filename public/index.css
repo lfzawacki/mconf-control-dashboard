@@ -1,0 +1,19 @@
+html, body {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background-color: #363636
+}
+div {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  line-height: 0;
+}
+
+iframe {
+  border: 0px solid #ffffff;
+  display:block;
+}
