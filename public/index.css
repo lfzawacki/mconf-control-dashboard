@@ -8,6 +8,7 @@ div {
   border: 0px;
   margin: 0px;
   padding: 0px;
+  display:inline;
 }
 body {
   line-height: 0;
@@ -15,5 +16,5 @@ body {
 
 iframe {
   border: 0px solid #ffffff;
-  display:block;
+  display:inline;
 }
