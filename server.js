@@ -36,6 +36,10 @@ app.get('/', function(req, res){
 // Api section
 var _check_parameters = function(param_obj, param_list) {
   var suc = true;
+
+  if (param_list == null)
+    return suc
+
   for (var i = 0; i < param_list.length; i++) {
     suc = suc && param_obj.hasOwnProperty(param_list[i]);
   }
@@ -81,6 +85,18 @@ var commands = {
     execute: function(req, res) {
       var keys = Object.keys(commands);
       res.end(JSON.stringify(keys));
+    }
+  },
+
+  help: {
+    description: 'Print help for a command specific command',
+    params: ['cmd'],
+    execute: function(req, res) {
+      if (commands.hasOwnProperty(req.query.cmd)) {
+        res.end(commands[req.query.cmd].description);
+      } else {
+        res.sendStatus(400);
+      }
     }
   }
 }
