@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var exec = require('child_process').exec;
 
 var path = require('path');
 
@@ -97,6 +98,15 @@ var commands = {
       } else {
         res.sendStatus(400);
       }
+    }
+  },
+
+  activate_lb: {
+    description: 'Ugly way to activate the lb bypassing the login screen',
+    params: [],
+    execute: function(req, res) {
+      exec('DISPLAY=:0.0 xdotool mousemove 500 115 click 1')
+      res.end()
     }
   }
 }
