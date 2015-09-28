@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var sites_available = {
   lb: { url: "http://lb2.mconf.org/dashboard", width: '70%'},
-  jenkins: { url: "http://mconf-jenkins.inf.ufrgs.br:8080/view/Monitor", width: '30%'}
+  jenkins: { url: "http://mconf-jenkins.inf.ufrgs.br/view/viewMonitor/", width: '30%'}
 }
 
 io.on('connection', function(socket){
