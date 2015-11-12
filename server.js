@@ -81,6 +81,13 @@ var commands = {
     }
   },
 
+  ls_sites: {
+    description: 'List all available sites',
+    execute: function(req, res) {
+      res.end(JSON.stringify(sites_available));
+    }
+  },
+
   ls: {
     description: 'List all available commands',
     execute: function(req, res) {
