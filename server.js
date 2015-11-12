@@ -82,7 +82,7 @@ var commands = {
   },
 
   ls: {
-    description: 'List all commands',
+    description: 'List all available commands',
     execute: function(req, res) {
       var keys = Object.keys(commands);
       res.end(JSON.stringify(keys));
@@ -90,11 +90,18 @@ var commands = {
   },
 
   help: {
-    description: 'Print help for a command specific command',
+    description: 'Print help for a specific command',
     params: ['cmd'],
+
     execute: function(req, res) {
       if (commands.hasOwnProperty(req.query.cmd)) {
-        res.end(commands[req.query.cmd].description);
+        commands[req.query.cmd].params = commands[req.query.cmd].params || []
+
+        var str = req.query.cmd + '\n' + '--------' + '\n';
+        str += 'Params: ' + JSON.stringify(commands[req.query.cmd].params) + '\n\n';
+        str += commands[req.query.cmd].description + '\n';
+
+        res.end(str);
       } else {
         res.sendStatus(400);
       }
