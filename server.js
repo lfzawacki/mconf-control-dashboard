@@ -12,11 +12,13 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// List of the sites which will be displayed
 var sites_available = {
   lb: { url: "http://lb2.mconf.org/dashboard", width: '70%'},
   jenkins: { url: "http://mconf-jenkins.inf.ufrgs.br/view/viewMonitor/", width: '30%'}
 }
 
+// Web sockets communication
 io.on('connection', function(socket){
   console.log('a user connected');
 
@@ -30,11 +32,14 @@ io.on('connection', function(socket){
   });
 });
 
+// Server main view
 app.get('/', function(req, res){
    res.render('index.html');
 });
 
-// Api section
+//
+// API section
+// ----------------
 var _check_parameters = function(param_obj, param_list) {
   var suc = true;
 
@@ -47,6 +52,7 @@ var _check_parameters = function(param_obj, param_list) {
   return suc;
 }
 
+var _last_coffee_timestamp = new Date();
 var commands = {
   set: {
     params: ['id', 'width'],
@@ -102,11 +108,14 @@ var commands = {
 
     execute: function(req, res) {
       if (commands.hasOwnProperty(req.query.cmd)) {
-        commands[req.query.cmd].params = commands[req.query.cmd].params || []
+        commands[req.query.cmd].params = commands[req.query.cmd].params || [];
+        var method = commands[req.query.cmd].method || 'GET';
+        var cmd = req.query.cmd;
 
-        var str = req.query.cmd + '\n' + '--------' + '\n';
-        str += 'Params: ' + JSON.stringify(commands[req.query.cmd].params) + '\n\n';
-        str += commands[req.query.cmd].description + '\n';
+        var str = cmd + '\n' + '--------' + '\n\n';
+        str += method + ' /api/' + cmd + '/\n';
+        str += 'PARAMS: ' + JSON.stringify(commands[cmd].params) + '\n\n';
+        str += commands[cmd].description + '\n';
 
         res.end(str);
       } else {
@@ -122,13 +131,33 @@ var commands = {
       exec('DISPLAY=:0.0 xdotool mousemove 500 115 click 1')
       res.end()
     }
+  },
+
+  coffee_timestamp: {
+    description: 'When was this coffee prepared?',
+    execute: function(req, res) {
+      res.end(_last_coffee_timestamp.toTimeString());
+    }
+  },
+
+  set_coffee_timestamp: {
+    description: 'Let the world know when coffee has last been prepared. \nTime param is optional, it will use current time if not present.',
+    params: [],
+    method: 'POST',
+    execute: function(req, res) {
+      _last_coffee_timestamp = new Date;
+      res.sendStatus(200);
+    }
   }
 }
 
+// Api get requests
 app.get('/api/:cmd', function(req, res){
 
   var cmd = req.params.cmd;
-  if (commands.hasOwnProperty(cmd) && _check_parameters(req.query, commands[cmd].params)) {
+  if (commands.hasOwnProperty(cmd) &&
+      _check_parameters(req.query, commands[cmd].params) &&
+      commands[req.params.cmd].method == null || commands[req.params.cmd].method == 'GET') {
     commands[req.params.cmd].execute(req, res)
   } else {
     res.write('Invalid Parameters')
@@ -137,6 +166,22 @@ app.get('/api/:cmd', function(req, res){
 
 });
 
+// Api post requests
+app.post('/api/:cmd', function(req, res){
+
+  var cmd = req.params.cmd;
+  if (commands.hasOwnProperty(cmd) &&
+      _check_parameters(req.query, commands[cmd].params) &&
+      commands[req.params.cmd].method == 'POST') {
+    commands[req.params.cmd].execute(req, res)
+  } else {
+    res.write('Invalid Parameters')
+    res.sendStatus(400);
+  }
+
+});
+
+// Initialize server
 var port = process.argv[2] || 3000
 http.listen(port, function(){
   console.log('listening on *:' + port);
