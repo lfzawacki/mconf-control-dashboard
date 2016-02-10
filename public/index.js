@@ -11,7 +11,7 @@ $(document).ready(function() {
     template += '<iframe src="" id="' + id + '" seamless="seamless" scrolling="no" marginheight="0" marginwidth="0" width="" height="100%"></iframe>';
     template += '</div>'
 
-    $('body').append(template)
+    $('#sites').append(template)
 
     $(element_id).attr('src', msg[id].url);
     $(element_id).attr('width', msg[id].width);
@@ -33,8 +33,23 @@ $(document).ready(function() {
     }
   });
 
+  socket.on('coffee_update', function(msg) {
+    $('#coffee-time').html(msg.coffee_time);
+  });
+
   // socket.on('layout', function(msg) {
   //   //change layout of current iframes
   // });
+
+  $('#coffee-button').on('click', function(e) {
+    $.ajax({
+      type: "POST",
+      url: '/api/set_coffee_timestamp',
+      data: '',
+      success: function() { console.log('Posted'); },
+    });
+
+    e.preventDefault();
+  });
 
 });

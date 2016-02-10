@@ -12,6 +12,8 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+var _last_coffee_timestamp = null;
+
 // List of the sites which will be displayed
 var sites_available = {
   lb: { url: "http://lb2.mconf.org/dashboard", width: '70%'},
@@ -23,6 +25,13 @@ io.on('connection', function(socket){
   console.log('a user connected');
 
   io.emit('sites', sites_available);
+
+  var ct = 'No Coffee';
+  if (_last_coffee_timestamp) {
+    ct = _last_coffee_timestamp.toTimeString();
+  }
+
+  io.emit('coffee_update', {coffee_time: ct});
 
   socket.on('set_layout', function(msg) {
   });
@@ -52,7 +61,6 @@ var _check_parameters = function(param_obj, param_list) {
   return suc;
 }
 
-var _last_coffee_timestamp = new Date();
 var commands = {
   set: {
     params: ['id', 'width'],
@@ -146,6 +154,9 @@ var commands = {
     method: 'POST',
     execute: function(req, res) {
       _last_coffee_timestamp = new Date;
+
+      io.emit('coffee_update', {coffee_time: _last_coffee_timestamp.toTimeString()});
+
       res.sendStatus(200);
     }
   }

@@ -15,6 +15,29 @@ body {
 }
 
 iframe {
-  border: 0px solid #ffffff;
+  border: none;
   display:inline;
+  box-sizing: border-box;
+  z-index: -1;
+}
+
+#coffee-button input[type='submit'] {
+  background:url(/images/coffee.png) no-repeat;
+  border: none;
+
+  width: 32px;
+  height: 32px;
+}
+
+#coffee-button {
+
+  position:absolute;
+  left: 20px;
+  right:0;
+  top: 540px;
+  bottom:0;
+
+  z-index: 1;
+
+  margin:auto auto auto 0;
 }
