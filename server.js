@@ -136,7 +136,7 @@ var commands = {
     description: 'Ugly way to activate the lb bypassing the login screen',
     params: [],
     execute: function(req, res) {
-      exec('DISPLAY=:0.0 xdotool mousemove 500 115 click 1')
+      exec('DISPLAY=:0.0 xdotool mousemove 500 130 click 1')
       res.end()
     }
   },
