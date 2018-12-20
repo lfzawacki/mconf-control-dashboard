@@ -2,12 +2,8 @@
 
 node {
 	checkout()
- 
-	/* master branch dev-qa-prod */
-	if ( env.BRANCH_NAME == 'master' ) {
-		userApproval3()
-		masterDevDeploy()
-	}
+	userApproval3()
+	masterDevDeploy()
 }
 
 /* ### def stages ### */
