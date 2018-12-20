@@ -23,7 +23,7 @@ def masterDevDeploy () {
 def userApproval3 () {
 	stage 'userApproval'
 	try {
-		input message: 'Is this version ready ?', id: 'input1'
+		input message: 'Is this version ready?', id: 'input1'
 	} catch (err) {
 		error ("Aborted Here2") 
 	}
