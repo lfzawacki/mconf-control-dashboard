@@ -193,7 +193,7 @@ app.post('/api/:cmd', function(req, res){
 });
 
 // Initialize server
-var port = process.argv[2] || 3000
+var port = process.argv[2] || 8080
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });
