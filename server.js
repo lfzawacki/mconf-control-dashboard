@@ -16,8 +16,8 @@ var _last_coffee_timestamp = null;
 
 // List of the sites which will be displayed
 var sites_available = {
-  lb: { url: "http://lb2.mconf.org/dashboard", width: '70%'},
-  jenkins: { url: "http://mconf-jenkins.inf.ufrgs.br/view/viewMonitor/", width: '30%'}
+  lb: { url: "https://elos.vc", width: '70%'},
+  jenkins: { url: "https://google.com", width: '30%'}
 }
 
 // Web sockets communication
