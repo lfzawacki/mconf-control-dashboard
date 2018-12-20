@@ -16,8 +16,8 @@ var _last_coffee_timestamp = null;
 
 // List of the sites which will be displayed
 var sites_available = {
-  lb: { url: "https://elos.vc", width: '70%'},
-  jenkins: { url: "https://google.com", width: '30%'}
+  jenkins: { url: "https://elos.vc", width: '50%'},
+  lb: { url: "http://www.inf.ufrgs.br/site/", width: '50%'}
 }
 
 // Web sockets communication
